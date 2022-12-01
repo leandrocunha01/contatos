@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Models\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class Address extends Model
+{
+    use HasFactory;
+    protected $table = 'address';
+
+    public function contact(){
+        return $this->belongsTo(Contact::class);
+    }
+}
