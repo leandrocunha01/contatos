@@ -1,0 +1,14 @@
+version: "3"
+services:
+  mysql:
+    container_name: mysql
+    image: mysql:5.7
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: contacts
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root_password
+    volumes:
+      - ./docker-compose/dbdata/:/var/lib/mysql/
