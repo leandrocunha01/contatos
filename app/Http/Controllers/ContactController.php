@@ -45,9 +45,19 @@ class ContactController extends Controller
         if ($validator->fails()) {
             $response['response'] = $validator->messages();
             return $response;
-        } else {
-            $contact = Contact::find($request->id);
         }
+
+        $contact = Contact::find($request->id);
+        if(!$contact){
+            return ['success' => false, 'response' =>  'Contato não encontrado'];
+        }else{
+            $contact->update($request->all());
+        }
+        return $contact;
+    }
+
+    public function view(Request $request){
+        $contact = Contact::find($request->id);
         if(!$contact){
             return ['success' => false, 'response' =>  'Contato não encontrado'];
         }else{
