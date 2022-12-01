@@ -14,12 +14,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 
-Route::get('/contacts', 'App\Http\Controllers\ContactController@index');
-Route::post('/contacts', 'App\Http\Controllers\ContactController@store');
-Route::put('/contacts/{id}', 'App\Http\Controllers\ContactController@update');
+// ROTAS PARA AUTENTICAÇÃO
+Route::post('/register', 'App\Http\Controllers\Auth\RegisterController@register');
+Route::post('/login', 'App\Http\Controllers\Auth\LoginController@login');
+Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout');
 
+// Rotas para contatos
+Route::group(
+    ['middleware' => ['auth:sanctum']],
+    function () {
+        Route::get('/contacts', 'App\Http\Controllers\ContactController@index');
+        Route::post('/contacts', 'App\Http\Controllers\ContactController@store');
+        Route::put('/contacts/{id}', 'App\Http\Controllers\ContactController@update');
+        Route::get('/contacts/{id}', 'App\Http\Controllers\ContactController@view');
+    });
