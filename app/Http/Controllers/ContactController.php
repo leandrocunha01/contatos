@@ -25,9 +25,9 @@ class ContactController extends Controller
             'address.address' => 'required',
             'address.complement' => 'required',
             'address.district' => 'required',
-            'address.city' => 'required',
+            'address.city' => 'required|max:2',
             'address.state' => 'required',
-            'address.cep' => 'required',
+            'address.cep' => 'required|max:9',
             'address.number' => 'required,'
         ]);
 
