@@ -10,7 +10,7 @@ class ContactController extends Controller
     public function index(Request $request)
     {
         $user = $request->user();
-        return $user->contacts()->with('address')->get();
+        return $user->contacts()->with('address')->orderBy('name')->get();
     }
 
     public function store(Request $request)
