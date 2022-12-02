@@ -23,7 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // ROTAS PARA AUTENTICAÇÃO
 Route::post('/register', 'App\Http\Controllers\Auth\RegisterController@register');
 Route::post('/login', 'App\Http\Controllers\Auth\LoginController@login');
-Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout');
+Route::post('/reset-password', 'App\Http\Controllers\Auth\LoginController@resetPassword');
+
 
 // Rotas para contatos
 Route::group(
@@ -33,4 +34,5 @@ Route::group(
         Route::post('/contacts', 'App\Http\Controllers\ContactController@store');
         Route::put('/contacts/{id}', 'App\Http\Controllers\ContactController@update');
         Route::get('/contacts/{id}', 'App\Http\Controllers\ContactController@view');
+        Route::post('/logout', 'App\Http\Controllers\Auth\LoginController@logout');
     });
