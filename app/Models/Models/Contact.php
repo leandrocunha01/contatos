@@ -10,6 +10,7 @@ class Contact extends Model
     use HasFactory;
 
     protected $fillable = ['name','phone','email','cpf'];
+    protected $hidden = ['user_id'];
 
     public function address(){
         return $this->hasOne(Address::class);
