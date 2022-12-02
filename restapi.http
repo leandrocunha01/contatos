@@ -1,0 +1,98 @@
+### REGISTER
+POST http://localhost:8000/api/register
+Content-Type: application/json
+Accept: application/json
+
+{
+  "name": "LEANDRO",
+  "email": "leandrocunha01@gmail.com",
+  "password": "123123"
+}
+
+
+### LOGIN
+POST http://localhost:8000/api/login
+Content-Type: application/json
+Accept: application/json
+
+{
+  "email": "leandrocunha01@gmail.com",
+  "password": "123123"
+}
+
+> {% client.global.set("token", response.body.data.token.plainTextToken); %}
+
+
+### LOGOUT
+GET http://localhost:8000/api/logout
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+### GET ALL CONTACTS
+GET http://localhost:8000/api/contacts
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### GET ONE CONTACT
+GET http://localhost:8000/api/contacts/1
+Accept: application/json
+Authorization: Bearer {{token}}
+
+
+### CREATE A CONTACT
+# @no-redirect
+POST http://localhost:8000/api/contacts
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "LEANDRO",
+  "phone": "41997415583",
+  "email": "leandrocunha0s1@gmasil.com",
+  "cpf": "00689659",
+  "address" : {
+    "address": "Rua João CADE",
+    "complement": "Rua João CADE",
+    "district": "Rua João CADE",
+    "state": "Rua João CADE",
+    "city": "Rua João CADE",
+    "cep": "Rua João CADE"
+  }
+}
+
+### UPDATE CONTACT
+# @no-redirect
+PUT http://localhost:8000/api/contacts/1
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+  "name": "LEANDRO",
+  "phone": "41997415583",
+  "email": "leandrocunha0s1@gmasil.com",
+  "cpf": "00689659",
+  "address" : {
+    "address": "Rua João CADE",
+    "complement": "Rua João CADE",
+    "district": "Rua João CADE",
+    "state": "Rua João CADE",
+    "city": "Rua João CADE",
+    "cep": "Rua João CADE"
+  }
+}
+
+### RESET PASSWORD
+# @no-redirect
+POST http://localhost:8000/api/reset-password
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {{token}}
+
+{
+    "email": "leandrocunha01@gmail.com",
+    "type": "email"
+}
