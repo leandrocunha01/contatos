@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Models\Address;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -20,10 +21,20 @@ class ContactController extends Controller
             'name' => 'required',
             'phone' => 'required',
             'email' => 'required|email|unique:contacts',
-            'cpf' => 'required:unique:contacts'
+            'cpf' => 'required:unique:contacts',
+            'address.address' => 'required',
+            'address.complement' => 'required',
+            'address.district' => 'required',
+            'address.city' => 'required',
+            'address.state' => 'required',
+            'address.cep' => 'required',
+            'address.number' => 'required,'
         ]);
 
-        return $user->contacts()->create($request->all());
+        $contact = $user->contacts()->create($request->all());
+        $contact->address()->save(new Address($request->address));
+
+        return $contact;
 
     }
 
@@ -34,12 +45,18 @@ class ContactController extends Controller
             'name' => 'required',
             'phone' => 'required',
             'email' => 'required|email',
-            'cpf' => 'required'
+            'cpf' => 'required',
+            'address.address' => 'required',
+            'address.complement' => 'required',
+            'address.district' => 'required',
+            'address.state' => 'required',
+            'address.cep' => 'required',
+            'address.number' => 'required,'
         ]);
 
-        $contact = $user->contact()->with('address')->findOrFail($request->id);
+        $contact = $user->contacts()->with('address')->findOrFail($request->id);
         $contact->update($request->all());
-
+        $contact->address()->update($request->address);
         return $contact;
     }
 

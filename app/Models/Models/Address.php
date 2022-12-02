@@ -10,6 +10,8 @@ class Address extends Model
     use HasFactory;
     protected $table = 'address';
 
+    protected $fillable = ['address','city', 'complement', 'district', 'state', 'cep'];
+
     public function contact(){
         return $this->belongsTo(Contact::class);
     }
