@@ -21,18 +21,20 @@ class ContactController extends Controller
             'name' => 'required',
             'phone' => 'required',
             'email' => 'required|email|unique:contacts',
-            'cpf' => 'required:unique:contacts',
+            'cpf' => 'required|unique:contacts',
             'address.address' => 'required',
             'address.complement' => 'required',
             'address.district' => 'required',
-            'address.city' => 'required|max:2',
-            'address.state' => 'required',
+            'address.city' => 'required',
+            'address.state' => 'required|max:2',
             'address.cep' => 'required|max:9',
-            'address.number' => 'required,'
+            'address.number' => 'required'
         ]);
+        $data = $request->only(['name', 'phone', 'email', 'cpf', 'address.address',
+            'address.complement', 'address.district', 'address.state', 'address.cep', 'address.number']);
 
-        $contact = $user->contacts()->create($request->all());
-        $contact->address()->save(new Address($request->address));
+        $contact = $user->contacts()->create($data);
+        $contact->address()->save(new Address($data['address']));
 
         return $contact;
 
@@ -51,13 +53,17 @@ class ContactController extends Controller
             'address.district' => 'required',
             'address.state' => 'required',
             'address.cep' => 'required',
-            'address.number' => 'required,'
+            'address.number' => 'required'
         ]);
 
+
+        $data = $request->only(['name', 'phone', 'email', 'cpf', 'address.address',
+            'address.complement', 'address.district', 'address.state', 'address.cep', 'address.number']);
+
         $contact = $user->contacts()->with('address')->findOrFail($request->id);
-        $contact->update($request->all());
-        $contact->address()->update($request->address);
-        return $contact;
+        $contact->update($data);
+        $contact->address()->update($data['address']);
+        return $contact->refresh();
     }
 
     public function view(Request $request)
