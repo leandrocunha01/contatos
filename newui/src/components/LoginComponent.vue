@@ -4,7 +4,7 @@
             <v-flex xs12 sm8 md4>
                 <v-card class="elevation-12">
                     <v-toolbar dark color="primary">
-                        <v-toolbar-title>Login</v-toolbar-title>
+                        <v-toolbar-title>Login {{ $store.state.token }}</v-toolbar-title>
                     </v-toolbar>
                     <v-card-text>
                         <v-form>
@@ -34,6 +34,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'LoginComponent',
     props: {
@@ -48,7 +49,7 @@ export default {
         loginFetch() {
             this.$store.dispatch('loginFetch', this.auth)
         }
-    }
+    },
 }
 </script>
 

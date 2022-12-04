@@ -12,7 +12,6 @@ Vue.config.productionTip = false
 
 Vue.use(VueGoogleMaps, {load: {key: 'AIzaSyAUp_PkomjqmdHEFyP7WupIcAFy2y9xotY', libraries: 'places'}})
 
-
 new Vue({
     vuetify,
     router,

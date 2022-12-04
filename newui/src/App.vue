@@ -16,6 +16,15 @@
                         <v-list-item-title>{{ item.title }}</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>
+                <v-list-item v-on:click="$store.dispatch('logoutFetch')" link>
+                    <v-list-item-icon>
+                        <v-icon>mdi-view-dashboard</v-icon>
+                    </v-list-item-icon>
+
+                    <v-list-item-content>
+                        <v-list-item-title>Sair</v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>
             </v-list>
         </v-navigation-drawer>
         <v-main>
@@ -27,16 +36,19 @@
 </template>
 
 <script>
+
 export default {
     name: 'App',
     data: () => ({
         drawer: false,
         isLogin: false,
         items: [
-            {title: 'Contacts', icon: 'mdi-view-dashboard', route: '/contacts'},
-            {title: 'Register', icon: 'mdi-view-dashboard', route: '/register'},
-            {title: 'Forgot Password', icon: 'mdi-view-dashboard', route: '/forgot-password'},
+            {title: 'Contatos', icon: 'mdi-view-dashboard', route: '/contacts'},
+            {title: 'Registrar', icon: 'mdi-view-dashboard', route: '/register'},
         ],
-    })
+    }),
+    mounted() {
+        this.$store.dispatch('checkIsLogin')
+    }
 }
 </script>

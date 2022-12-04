@@ -28,17 +28,30 @@ export default new Vuex.Store({
         loginFailure(state) {
             state.isLogin = false
         },
-        logout(state) {
+        logoutFetch(state) {
             state.isLogin = false
+            state.token = false
+            localStorage.setItem("accessToken", '')
         }
     },
     actions: {
         loginFetch({commit}, auth) {
             login.post('/login', auth).then(response => {
                 let token = response.data.data.token.plainTextToken
-                commit('loginSuccess', {token: token});
+                commit('loginSuccess', {token: token})
                 router.push({ name: 'contacts' })
             })
+        },
+        checkIsLogin({commit}){
+            let accessToken = localStorage.getItem('accessToken')
+            if(accessToken){
+                commit('loginSuccess', {token: accessToken})
+                router.push({ name: 'contacts' })
+            }
+        },
+        logoutFetch({commit}){
+            commit('logoutFetch')
+            router.push({ name: 'login' })
         }
     },
     modules: {}
