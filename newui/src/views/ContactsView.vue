@@ -2,7 +2,7 @@
     <div>
         <v-row>
             <v-col cols="3" style="width: 10%">
-                <v-btn class="mx-2" fab dark color="indigo">
+                <v-btn v-on:click="$refs.contactForm.contactCreate()" class="mx-2" fab dark color="indigo">
                     <v-icon dark>
                         mdi-plus
                     </v-icon>
@@ -12,6 +12,7 @@
                         v-model="selectedItem"
                         color="primary">
                         <v-list-item v-on:click="setCenter(contact.address)"
+                                     v-on:dblclick="$refs.contactForm.contactEdit(contact)"
                                      v-for="(contact, i) in contacts"
                                      :key="i">
                             <v-list-item-content>
@@ -28,7 +29,7 @@
                 />
                 <GmapMap
                     :center=this.center
-                    :zoom="16"
+                    :zoom="zoom"
                     style="width: 100%; height: 82vh;"
                 >
                     <GmapMarker
@@ -40,15 +41,19 @@
                 </GmapMap>
             </v-col>
         </v-row>
+        <ContactForm ref="contactForm" v-on:showModal="$emit('showModal')" />
     </div>
 </template>
 <script>
+import ContactForm from "@/components/ContactForm";
 export default {
+    components: {ContactForm},
     data() {
         return {
             contacts: [],
+            zoom: 16,
             selectedItem: null,
-            center: {lat: -25.4437172, lng: -49.2789859}
+            center: {lat: -25.4437172, lng: -49.2789859},
         }
     },
     methods: {
@@ -56,8 +61,9 @@ export default {
             if (!place) return
         },
         setCenter(address) {
+            this.zoom = 16
             this.center = {lat: address.lat, lng: address.lng}
-        }
+        },
     },
     mounted() {
         this.$http.get('contacts').then(responser => {
