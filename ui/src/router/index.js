@@ -18,4 +18,12 @@ const router = createRouter({
     ]
 })
 
+router.beforeEach((to, from, next) => {
+        if (!this.$store.getters.isLogin) {
+            next({ name: 'Login' })
+        } else {
+            next()
+        }
+})
+
 export default router
