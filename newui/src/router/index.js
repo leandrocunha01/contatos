@@ -18,7 +18,12 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/ContactsView.vue')
-  }
+  },
+    {
+        path: '/register',
+        name: 'register',
+        component: () => import(/* webpackChunkName: "about" */ '../views/RegisterView.vue')
+    }
 ]
 
 const router = new VueRouter({
@@ -26,7 +31,7 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-    if (to.name !== 'home' && !store.getters.isLogin) {
+    if ((to.name !== 'home' && to.name !== 'register') && !store.getters.isLogin) {
         next({ name: 'home' })
     } else {
         next()
