@@ -31,12 +31,12 @@ export default {
     name: 'App',
     data: () => ({
         drawer: false,
+        isLogin: false,
         items: [
             {title: 'Contacts', icon: 'mdi-view-dashboard', route: '/contacts'},
             {title: 'Register', icon: 'mdi-view-dashboard', route: '/register'},
             {title: 'Forgot Password', icon: 'mdi-view-dashboard', route: '/forgot-password'},
-            {title: 'About', icon: 'mdi-view-dashboard', route: '/about'},
         ],
-    }),
-};
+    })
+}
 </script>

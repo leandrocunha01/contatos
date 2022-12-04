@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import login from "@/services/login";
+import router from "@/router";
 
 Vue.use(Vuex)
 
@@ -13,13 +14,15 @@ export default new Vuex.Store({
     getters: {
         getToken: function (state) {
             return state.token
+        },
+        isLogin: function (state) {
+            return state.isLogin
         }
     },
     mutations: {
         loginSuccess(state, token) {
             state.isLogin = true
             state.token = token.token
-            state.user = null
             localStorage.setItem("accessToken", state.token)
         },
         loginFailure(state) {
@@ -32,8 +35,9 @@ export default new Vuex.Store({
     actions: {
         loginFetch({commit}, auth) {
             login.post('/login', auth).then(response => {
-                var token = response.data.data.token.plainTextToken
-                commit('loginSuccess', { token: token});
+                let token = response.data.data.token.plainTextToken
+                commit('loginSuccess', {token: token});
+                router.push({ name: 'contacts' })
             })
         }
     },
