@@ -13,9 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('contacts', function (Blueprint $table) {
-            $table->index(['name', 'email', 'cpf']);
-            $table->index('name', 'name_search');
+        Schema::table('address', function (Blueprint $table) {
+            $table->string('number',8)->after('address');
         });
     }
 
@@ -26,9 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('contacts', function (Blueprint $table) {
-            $table->dropIndex('contacts_name_email_cpf_index');
-            $table->dropIndex('contacts_name_index');
+        Schema::table('address', function (Blueprint $table) {
+            $table->dropColumn('number');
         });
     }
 };
