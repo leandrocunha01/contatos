@@ -14,7 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::table('address', function (Blueprint $table) {
-            $table->string('spatial_point')->after('id');
+            $table->float('lat',10,8)->default(-25.4437172)->after('id');
+            $table->float('lng',10,8)->default(-49.2789859)->after('id');
         });
     }
 
@@ -26,7 +27,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('address', function (Blueprint $table) {
-            $table->dropColumn('spatial_point');
+            $table->dropColumn('lat');
+            $table->dropColumn('lng');
         });
     }
 };
