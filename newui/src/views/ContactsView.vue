@@ -24,9 +24,6 @@
 
             </v-col>
             <v-col cols="9">
-                <gmap-autocomplete
-                    @place_changed="setPlace"
-                />
                 <GmapMap
                     :center=this.center
                     :zoom="zoom"
@@ -57,12 +54,10 @@ export default {
         }
     },
     methods: {
-        setPlace(place) {
-            if (!place) return
-        },
         setCenter(address) {
             this.zoom = 16
             this.center = {lat: address.lat, lng: address.lng}
+            console.log(this.center)
         },
     },
     mounted() {

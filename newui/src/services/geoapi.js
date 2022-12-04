@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const geoApi = axios.create({
     baseURL: 'https://maps.googleapis.com/maps/api/geocode',
-    timeout: 30000,
+    timeout: 3000,
     params: {
         key: 'AIzaSyAUp_PkomjqmdHEFyP7WupIcAFy2y9xotY'
     }
