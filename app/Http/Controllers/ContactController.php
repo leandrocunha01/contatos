@@ -23,14 +23,13 @@ class ContactController extends Controller
             'email' => 'required|email|unique:contacts',
             'cpf' => 'required|unique:contacts',
             'address.address' => 'required',
-            'address.complement' => 'required',
             'address.district' => 'required',
             'address.city' => 'required',
             'address.state' => 'required|max:2',
             'address.cep' => 'required|max:9',
             'address.number' => 'required'
         ]);
-        $data = $request->only(['name', 'phone', 'email', 'cpf', 'address.address',
+        $data = $request->only(['name', 'phone', 'email', 'cpf', 'address.address','address.city',
             'address.complement', 'address.district', 'address.state', 'address.cep', 'address.number']);
 
         $contact = $user->contacts()->create($data);
@@ -49,7 +48,6 @@ class ContactController extends Controller
             'email' => 'required|email',
             'cpf' => 'required',
             'address.address' => 'required',
-            'address.complement' => 'required',
             'address.district' => 'required',
             'address.state' => 'required',
             'address.cep' => 'required',
