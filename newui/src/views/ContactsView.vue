@@ -32,11 +32,10 @@
                     <GmapMarker
                         v-for="(contact, index) in contacts"
                         :key="index"
-                        :position='{lat: contact.address.lat ,lng: contact.address.lng}'
+                        :position='contact.address'
                         :clickable="true"
                     >
-                        <GmapInfoWindow :options="infOption">
-                        </GmapInfoWindow>
+                    <GmapInfoWindow :options="infOption" :position="contact.address"></GmapInfoWindow>
                     </GmapMarker>
                 </GmapMap>
             </v-col>
@@ -69,14 +68,16 @@ export default {
                             district: 'Batel'
                         }
                     })
-            }
+            },
+            showInfoWindow: true
         }
     },
     methods: {
         setCenter(contact) {
             this.zoom = 16
-            this.center = {lat: contact.address.lat, lng: contact.address.lng}
+            this.center = contact.address
             this.infOption.content = this.infoWindowTemplate(contact)
+            this.showInfoWindow = false
         },
         createNewContact() {
             this.$refs.createContact.contactCreate()
@@ -88,7 +89,7 @@ export default {
                         <div class="v-card__text">
                         <h3>${contact.address.address}, ${contact.address.number} -
                             ${contact.address.district},
-                            ${contact.address.city} - ${contact.address.state}</h3>
+                            ${contact.address.city} - ${contact.address.state}, ${contact.address.cep}</h3>
                         <h4><strong>Tel: </strong><a href="tel:${contact.phone}">${contact.phone}</a></h4>
                         <h4><strong>E-mail: </strong><a href="mailto:${contact.email}">${contact.email}</a></h4>
                         </div>

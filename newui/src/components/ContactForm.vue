@@ -61,8 +61,6 @@
                                 <v-text-field :rules="validations.address.state"
                                               disabled v-model="contact.address.state" label="Estado" required/>
                             </v-col>
-                            <input type="hidden" v-model="contact.address.lat"/>
-                            <input type="hidden" v-model="contact.address.lng"/>
                         </v-row>
                     </v-container>
                 </v-card-text>
@@ -78,13 +76,13 @@
                            color="blue darken-1"
                            text
                            :loading="loading"
-                           :disabled="loading"
+                           :disabled="disabled"
                            v-on:click="submitCreateContact">
                         Cadastrar Contato
                     </v-btn>
                     <v-btn v-if="!isNew && showFetchButton"
                            :loading="loading"
-                           :disabled="loading"
+                           :disabled="disabled"
                            color="blue darken-1"
                            text
                            v-on:click="submitUpdateContact">
@@ -183,9 +181,9 @@ export default {
             }
         },
         submitCreateContact() {
-            this.loading = true
-            this.disabled = true
             if (this.$refs.form.validate()) {
+                this.loading = true
+                this.disabled = true
                 this.$http.post('/contacts', this.contact).then(() => {
                     this.afterSuccess('Contato criado com sucesso!')
                 }).catch(error => {
@@ -194,9 +192,9 @@ export default {
             }
         },
         submitUpdateContact() {
-            this.loading = true
-            this.disabled = true
             if (this.$refs.form.validate()) {
+                this.loading = true
+                this.disabled = true
                 this.$http.put(`/contacts/${this.id}`, this.contact).then(() => {
                     this.afterSuccess('Atualizado com sucesso!')
                 }).catch(error => {
@@ -230,6 +228,7 @@ export default {
             this.setLatLng(lat, lng)
         },
         setLatLng(lat, lng) {
+            console.log(lat)
             this.contact.address.lat = lat
             this.contact.address.lng = lng
         },
@@ -240,6 +239,7 @@ export default {
                     let data = response.data
                     this.setAddressByApi(
                         {
+                            number: this.contact.address.number,
                             district: data.bairro,
                             address: data.logradouro,
                             city: data.localidade,
@@ -250,9 +250,10 @@ export default {
             }
         },
         getLatLng() {
-            geoApi.get(`json?address=${this.contact.address.address}, ${this.contact.address.number}`).then(response => {
-                let geometry = response.data.results[0].geometry
-                this.setLatLng({ lat: geometry.location.lat, lng: geometry.location.lng })
+            geoApi.get(`json?address=${this.contact.address.address}, ${this.contact.address.number}`).then(
+                response => {
+                let positions = response.data.results[0].geometry.location
+                this.setLatLng(positions.lat, positions.lng)
             })
         }
     }
