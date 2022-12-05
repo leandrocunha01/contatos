@@ -11,7 +11,7 @@
                 <v-card-subtitle>Digite Rua e número e ache seu cep</v-card-subtitle>
                 <v-card-text>
                     <v-container>
-
+                        <v-alert v-if="resultStatus === 'ZERO_RESULTS'" dense type="warning">Sem resultados para busca</v-alert>
                         <v-row>
                             <v-col cols="10">
                                 <v-text-field v-model="address" placeholder="Rua João Zaleski, 842" required/>
@@ -27,9 +27,6 @@
                             </v-col>
                         </v-row>
                         <v-row>
-                            <h3 v-if="resultStatus === 'ZERO_RESULTS'" >
-                                Sem resultados encontrados
-                            </h3>
                             <v-col>
                                 <v-radio-group>
                                     <v-radio
@@ -50,7 +47,7 @@
                     <v-btn
                         color="blue darken-1"
                         text
-                        @click="showModal = false">
+                        @click="closeAlert()">
                         Cancelar
                     </v-btn>
                 </v-card-actions>
@@ -67,7 +64,7 @@ export default {
             showModal: false,
             loading: false,
             disabled: false,
-            address: 'Rua Jão Zaleski, 483',
+            address: '',
             geoApiResponse: [],
             geoApiAddress: [],
             resultStatus: '',
@@ -81,16 +78,14 @@ export default {
             this.loading = true
             this.disabled = true
             geoApi.get(`json?address=${this.address}`).then(response => {
-                console.log(response)
                 this.geoApiResponse = response.data.results
                 this.loading = false
                 this.disabled = false
                 this.resultStatus = response.data.status
-                setTimeout(this.hideAlert, 5000)
-            }).catch(error => {
+                setTimeout(this.hideAlert, 30000)
+            }).catch(() => {
                 this.loading = false
                 this.disabled = false
-                console.log(error)
             })
         },
         hideAlert(){
@@ -99,6 +94,10 @@ export default {
         geoAddressEmitter(response){
             this.$emit('geoApiAddress', response)
             this.showModal = false
+        },
+        closeAlert(){
+            this.showModal = false
+            this.resultStatus = ''
         }
     }
 }

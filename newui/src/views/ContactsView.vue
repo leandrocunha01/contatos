@@ -2,7 +2,7 @@
     <div>
         <v-row>
             <v-col cols="3" style="width: 10%">
-                <v-btn v-on:click="$refs.contactForm.contactCreate()" class="mx-2" fab dark color="indigo">
+                <v-btn v-on:click="createNewContact" class="mx-2" fab dark color="indigo">
                     <v-icon dark>
                         mdi-plus
                     </v-icon>
@@ -12,7 +12,7 @@
                         v-model="selectedItem"
                         color="primary">
                         <v-list-item v-on:click="setCenter(contact.address)"
-                                     v-on:dblclick="$refs.contactForm.contactEdit(contact)"
+                                     v-on:dblclick="$refs.contactForm.contactEdit(contact, false)"
                                      v-for="(contact, i) in contacts"
                                      :key="i">
                             <v-list-item-content>
@@ -39,6 +39,7 @@
             </v-col>
         </v-row>
         <ContactForm ref="contactForm" v-on:showModal="$emit('showModal')" />
+        <ContactForm ref="createContact" v-on:showModal="$emit('showModal')" />
     </div>
 </template>
 <script>
@@ -57,8 +58,10 @@ export default {
         setCenter(address) {
             this.zoom = 16
             this.center = {lat: address.lat, lng: address.lng}
-            console.log(this.center)
         },
+        createNewContact(){
+            this.$refs.createContact.contactCreate()
+        }
     },
     mounted() {
         this.$http.get('contacts').then(responser => {
